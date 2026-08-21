@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#08051d" />
+  <title>AI 4コマ漫画工房</title>
+  <meta name="description" content="5つの質問に答えるだけで、ChatGPTに貼る4コマ漫画生成プロンプトを作れる無料WEBアプリ。" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="speed-lines" aria-hidden="true"></div>
+  <div class="halftone halftone-a" aria-hidden="true"></div>
+  <div class="halftone halftone-b" aria-hidden="true"></div>
+
+  <main class="app-shell" id="app">
+    <header class="topbar">
+      <div class="brand-mini">AI COMIC LAB</div>
+      <div class="step-dots" id="stepDots" aria-label="進み具合"></div>
+    </header>
+
+    <section class="screen active" id="startScreen" aria-labelledby="appTitle">
+      <div class="start-card comic-panel">
+        <div class="burst-label">明日だけでも即スタート！</div>
+        <div class="title-kicker">NEON × COMIC × GAME</div>
+        <h1 id="appTitle">AI 4コマ<br /><span>漫画工房</span></h1>
+        <p class="subtitle">5つの質問に答えるだけ！<br />キミだけの4コマ漫画をAIと作ろう！</p>
+        <div class="comic-strip" aria-hidden="true">
+          <span>?</span><span>!</span><span>!?</span><span>★</span>
+        </div>
+        <button class="primary-btn giant" id="startBtn" type="button">
+          <span class="btn-icon">▶</span>
+          漫画づくりスタート！
+        </button>
+        <p class="privacy-note">ログインなし・入力内容は保存しません</p>
+      </div>
+    </section>
+
+    <section class="screen" id="questionScreen" aria-live="polite">
+      <div class="question-card comic-panel">
+        <div class="question-meta">
+          <span class="question-number" id="questionNumber">Q1 / 5</span>
+          <span class="question-badge" id="questionBadge">主人公を決めよう！</span>
+        </div>
+        <h2 id="questionTitle">主人公は誰・何？</h2>
+        <p class="question-help" id="questionHelp">人でも、動物でも、食べ物でも、何でもOK！</p>
+
+        <label class="input-wrap" for="answerInput">
+          <span class="input-label">ここに入力</span>
+          <textarea id="answerInput" rows="3" maxlength="100" placeholder="例：メイド服を着た、がたいのいいおじさん"></textarea>
+          <span class="char-count"><span id="charCount">0</span>/100</span>
+        </label>
+
+        <div class="choice-area">
+          <p class="choice-title">思いつかない時は、ボタンを押してOK！</p>
+          <div class="choice-grid" id="choiceGrid"></div>
+          <button class="random-btn" id="randomBtn" type="button">🎲 おまかせ！</button>
+        </div>
+
+        <div class="nav-row">
+          <button class="secondary-btn" id="backBtn" type="button">← 戻る</button>
+          <button class="primary-btn" id="nextBtn" type="button">これでOK！ 次へ →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="resultScreen" aria-labelledby="resultTitle">
+      <div class="result-card comic-panel">
+        <div class="success-stamp">READY!</div>
+        <h2 id="resultTitle">4コマ完成準備OK！</h2>
+        <p class="result-lead">下のプロンプトをコピーして、ChatGPTに貼り付けよう！</p>
+
+        <div class="preview-strip" id="previewStrip"></div>
+
+        <div class="prompt-box">
+          <div class="prompt-head">
+            <span>完成プロンプト</span>
+            <span class="prompt-chip">COPY & PASTE</span>
+          </div>
+          <textarea id="finalPrompt" readonly aria-label="ChatGPTに貼る完成プロンプト"></textarea>
+        </div>
+
+        <button class="primary-btn giant copy-btn" id="copyBtn" type="button">📋 プロンプトをコピー</button>
+        <div class="copy-message" id="copyMessage" role="status" aria-live="polite"></div>
+
+        <div class="finish-actions">
+          <button class="secondary-btn" id="editBtn" type="button">← 内容を直す</button>
+          <button class="reset-btn" id="restartBtn" type="button">⟳ 最初からやり直す</button>
+        </div>
+      </div>
+    </section>
+
+    <button class="floating-reset" id="floatingReset" type="button" hidden>⟳ 最初から</button>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
