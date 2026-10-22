@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#08051d" />
   <title>AI 4コマ漫画工房</title>
-  <meta name="description" content="5つの質問に答えるだけで、ChatGPTに貼る4コマ漫画生成プロンプトを作れる無料WEBアプリ。" />
+  <meta name="description" content="5つの質問からストーリーを作り、画像・セリフ編集、PNG保存、A4印刷までできる無料の4コマ漫画工房。" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -32,7 +32,8 @@
           <span class="btn-icon">▶</span>
           漫画づくりスタート！
         </button>
-        <p class="privacy-note">ログインなし・入力内容は保存しません</p>
+        <a class="primary-btn giant" href="studio.html" style="display:flex;align-items:center;justify-content:center;margin:24px auto 0;text-decoration:none;background:linear-gradient(90deg,#ffe56b,#ffacdb);box-shadow:0 7px 0 #9b5c74;color:#170e36">🎨 4コマを直接編集する</a>
+        <p class="privacy-note">ログインなし・質問の入力内容はこの画面を閉じると消えます</p>
       </div>
     </section>
 
@@ -80,6 +81,7 @@
           <textarea id="finalPrompt" readonly aria-label="ChatGPTに貼る完成プロンプト"></textarea>
         </div>
 
+        <button class="primary-btn giant" id="openStudioBtn" type="button" style="display:block;margin:26px auto 0;background:linear-gradient(90deg,#ffe56b,#ffacdb);box-shadow:0 7px 0 #9b5c74;color:#170e36">🎨 この物語を4コマに仕上げる！</button>
         <button class="primary-btn giant copy-btn" id="copyBtn" type="button">📋 プロンプトをコピー</button>
         <div class="copy-message" id="copyMessage" role="status" aria-live="polite"></div>
 
