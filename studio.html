@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#10152d">
+  <meta name="description" content="無料で4コマ漫画を編集・保存・印刷できる制作スタジオ。">
+  <title>4コマ漫画制作スタジオ | AI 4コマ漫画工房</title>
+  <link rel="stylesheet" href="studio.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="top">
+      <a class="brand" href="index.html">◀ AI 4コマ漫画工房</a>
+      <span class="pill">無料・登録不要</span>
+    </header>
+    <div class="intro">
+      <div class="eyebrow">COMIC MAKER STUDIO</div>
+      <h1>4コマを、<em>作品</em>にしよう。</h1>
+      <p>画像を1コマずつ入れて、セリフを追加。完成したらPNG保存・A4印刷！</p>
+      <p class="notice">※ この画面でAI画像は自動生成されません。画像はChatGPT等で作って保存したものや、ご自身の画像を追加できます。</p>
+    </div>
+    <div class="workspace">
+      <div class="tools">
+        <section class="box">
+          <div class="section-head"><h2>作品の設定</h2><span class="step">01</span></div>
+          <label>作品タイトル <input id="title" type="text" maxlength="45" placeholder="例：ねこの大冒険"></label>
+          <label>主人公の見た目 <input id="hero" type="text" maxlength="120" placeholder="例：長靴をはいた白い猫"></label>
+          <label>コマの並べ方
+            <select id="layout">
+              <option value="vertical">縦4コマ（A4向け）</option>
+              <option value="grid">2×2（SNS向け）</option>
+            </select>
+          </label>
+        </section>
+        <section class="box">
+          <div class="section-head"><h2>コマを編集</h2><span class="step">02</span></div>
+          <div class="tabs" role="tablist" aria-label="編集するコマ">
+            <button type="button" class="tab active" data-panel="0" aria-selected="true">1コマ</button>
+            <button type="button" class="tab" data-panel="1" aria-selected="false">2コマ</button>
+            <button type="button" class="tab" data-panel="2" aria-selected="false">3コマ</button>
+            <button type="button" class="tab" data-panel="3" aria-selected="false">4コマ</button>
+          </div>
+          <div class="panel-edit">
+            <label>このコマの場面説明
+              <textarea id="scene" maxlength="180" rows="3" placeholder="何が起きている？"></textarea>
+            </label>
+            <label>ふきだしのセリフ
+              <textarea id="speech" maxlength="90" rows="2" placeholder="例：えっ!?"></textarea>
+            </label>
+            <div class="upload-group">
+              <label class="upload-button" for="panelImage">🖼 このコマの画像を選ぶ
+                <input id="panelImage" type="file" accept="image/png,image/jpeg,image/webp">
+              </label>
+              <button class="subtle" type="button" id="clearImage">画像を削除</button>
+            </div>
+            <p class="hint">PNG / JPG / WebP、1枚8MBまで。アップロードした画像は外部送信されません。</p>
+            <label>画像の拡大率 <span id="zoomValue">100%</span>
+              <input id="zoom" type="range" min="100" max="260" step="5" value="100">
+            </label>
+            <label>画像の横位置 <span id="xValue">中央</span>
+              <input id="offsetX" type="range" min="-100" max="100" step="5" value="0">
+            </label>
+            <label>画像の縦位置 <span id="yValue">中央</span>
+              <input id="offsetY" type="range" min="-100" max="100" step="5" value="0">
+            </label>
+            <p class="hint">画像が入っていないコマは、仮の背景と場面説明で表示します。</p>
+          </div>
+        </section>
+        <section class="box">
+          <div class="section-head"><h2>AIで絵を作る</h2><span class="step">03</span></div>
+          <p class="hint larger">「画像生成の指示をコピー」→ ChatGPTで絵を生成 → 画像を保存 → この画面へ戻り各コマに追加、の順で使えるよ。</p>
+          <button type="button" class="btn secondary full" id="copyAI">✨ 画像生成の指示をコピー</button>
+          <a class="external" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPTを開く ↗</a>
+          <div id="aiStatus" class="status" role="status" aria-live="polite"></div>
+        </section>
+        <section class="box">
+          <div class="section-head"><h2>作品データ</h2><span class="step">04</span></div>
+          <div class="actions compact">
+            <button type="button" class="btn secondary" id="saveProject">📁 編集データを保存</button>
+            <label for="loadProject" class="btn secondary file-label">📂 続きから開く<input id="loadProject" type="file" accept=".json,application/json"></label>
+            <button type="button" class="btn secondary" id="demo">サンプルを使う</button>
+            <button type="button" class="btn danger" id="reset">最初から作る</button>
+          </div>
+          <p class="hint">編集データはJSON形式。画像入り作品も保存できます。通常の編集内容はこの端末に一時保存します。</p>
+        </section>
+      </div>
+      <section class="output">
+        <div class="output-top">
+          <div><h2>完成イメージ</h2><p>入力するとすぐ反映されるよ</p></div>
+          <span class="live">● LIVE PREVIEW</span>
+        </div>
+        <canvas id="comic" width="940" height="1560" role="img" aria-label="編集中の4コマ漫画のプレビュー"></canvas>
+        <div class="actions export">
+          <button type="button" class="btn primary" id="download">⬇ PNG画像を保存</button>
+          <button type="button" class="btn secondary" id="print">🖨 A4で印刷</button>
+        </div>
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+      </section>
+    </div>
+    <footer>© AI 4コマ漫画工房 · プライバシー: 作品はブラウザ内で処理され、サーバーへアップロードされません。</footer>
+  </div>
+  <div id="printSheet"><img id="printImage" alt="印刷用4コマ漫画"></div>
+  <script src="studio.js"></script>
+</body>
+</html>
