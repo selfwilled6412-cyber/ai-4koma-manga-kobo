@@ -252,6 +252,10 @@
     }
   });
 
+  document.querySelector('#openStudioBtn').addEventListener('click', () => {
+    try { sessionStorage.setItem('ai4koma.wizard.v1', JSON.stringify(state.answers)); } catch (_) { /* browser privacy settings */ }
+    window.location.href = 'studio.html';
+  });
   el.copyBtn.addEventListener('click', copyPrompt);
   el.editBtn.addEventListener('click', () => {
     state.step = questions.length - 1;
