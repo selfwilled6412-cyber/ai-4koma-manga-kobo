@@ -252,6 +252,10 @@
     }
   });
 
+  document.querySelector('#quickModeBtn').addEventListener('click', () => {
+    try { sessionStorage.setItem('ai4koma.wizard.v1', JSON.stringify(state.answers)); } catch (_) {}
+    window.location.href = 'quick.html';
+  });
   document.querySelector('#openStudioBtn').addEventListener('click', () => {
     try { sessionStorage.setItem('ai4koma.wizard.v1', JSON.stringify(state.answers)); } catch (_) { /* browser privacy settings */ }
     window.location.href = 'studio.html';
