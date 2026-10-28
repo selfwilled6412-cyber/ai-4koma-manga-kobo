@@ -107,7 +107,7 @@ function drawBackground(theme,w,h,i){
  ctx.save();const g=ctx.createLinearGradient(0,0,w,h);const p=palette();g.addColorStop(0,p[i]);g.addColorStop(1,'#ffffff');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
  const floor=h*.78;
  if(theme==='space'){
-  for(let k=0;k<20;k++){const x=(41+k*89+i*31)%w,y=(26+k*53+i*27)%(h*.7);star(x,y,3+k%3,'#477fc0')}
+  for(let k=0;k<20;k++){const x=(41+k*89+i*31+seed*17)%w,y=(26+k*53+i*27+seed*11)%(h*.7);star(x,y,3+k%3,'#477fc0')}
   ellipse(w*.16,h*.45,w*.12,w*.15,'#88c6ea','#6895d0',2);ellipse(w*.2,h*.48,w*.045,w*.033,'#bde9da',null);
   ellipse(w*.69,h*.29,w*.055,w*.055,'#fbd789',null);
  }else if(theme==='school'){
@@ -177,7 +177,7 @@ function panelScene(i,x,y,w,h){
  for(let k=0;k<5;k++){line(w*.72+k*8,20,w*.78+k*11,6,'#fff7ff',3)}
  const compact=w<600;
  const cScale=Math.min(w/550,h/345)*.92;
- character(w*.77,h*.96,cScale,project.type,i);
+ character(w*(.77+((seed%3)-1)*.018),h*.96,cScale,project.type,i);
  const labelWidth=compact?115:145;
  box(12,12,labelWidth,33,'#253460',null,0,7);
  text(String(i+1)+'コマ目　'+['起','承','転','結'][i],23,29,compact?17:20,'white',950);
@@ -199,7 +199,7 @@ function panelScene(i,x,y,w,h){
  const rows=wrapText(phrase,bubbleW-28,3,fs,950);
  rows.forEach((txt,j)=>text(txt,bubbleX+bubbleW/2,bubbleY+bubbleH/2+(j-(rows.length-1)/2)*(fs+5),fs,'#202842',950,'center'));
  if(i===2){text('!?',w*.53,h*.34,Math.min(75,h*.19),'#ef4e5b',1000,'center');}
- if(i===3){star(35,h*.25,16,'#ffe065');}
+ if(i===3){star(35+seed%4*13,h*.25,16,'#ffe065');}
  ctx.restore();ctx.restore();
 }
 function draw(){
