@@ -254,6 +254,35 @@ function loadJson(e){
  reader.onerror=()=>status('ファイルを読み込めませんでした');
  reader.readAsText(file);e.target.value='';
 }
+function buildAIComicPrompt(){
+ const details=project.panels.map((p,i)=>String(i+1)+'コマ目（'+panelTitles[i]+'）\n場面：'+String(p.scene||'').trim()+'\nセリフ：'+String(p.speech||'').trim()).join('\n\n');
+ return [
+ '以下の指示を参考に、オリジナルの日本語4コマ漫画の完成画像を1枚生成してください。',
+ '作品タイトル：'+(project.title||'わたしの4コマ漫画'),
+ '主人公：'+(project.hero||'かわいいオリジナルキャラクター'),
+ '雰囲気：'+({pop:'明るくポップ',pastel:'柔らかくパステル',cool:'クールでスタイリッシュ'}[project.palette]||'ポップ'),
+ '構成：'+(project.layout==='grid'?'2×2に4コマを配置':'上から下へ縦4コマを配置'),
+ '主人公の顔・体格・髪型・服・色は全コマで同じ人物だとわかるよう統一してください。',
+ 'コマを1から4まで視覚的にはっきり区切り、起承転結がわかるようにしてください。',
+ 'シーンごとに変化がわかる構図にして、セリフは原稿どおりの日本語で読みやすく配置してください。',
+ '文字が難しい場合は吹き出しのみのバージョンも作成してください。',
+ '実在の人・企業の著作権で保護されたキャラクターに似せないでください。',
+ '【4コマの原稿】\n'+details,
+ '完成した4コマ漫画の画像を生成してください。'
+ ].join('\n\n');
+}
+async function copyAIPrompt(){
+ const prompt=buildAIComicPrompt(),area=$('aiPromptText');
+ if(area)area.value=prompt;
+ let success=false;
+ try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(prompt);success=true;}}catch(e){}
+ if(!success&&area){
+  area.focus();area.select();
+  try{success=document.execCommand('copy');}catch(e){}
+ }
+ status(success?'4コマ漫画のAI画像指示文をコピーしたよ！ ChatGPTに貼り付けてね。':'指示文を下の欄に表示したよ。選択してコピーしてね。');
+}
+$('copyAIPrompt').onclick=copyAIPrompt;
 status(loadInitial());renderFields();
 ['title','hero','type','theme','layout','palette'].forEach(key=>$(key).addEventListener(['title','hero'].includes(key)?'input':'change',()=>updateValue(key)));
 $('demo').onclick=demo;$('rerender').onclick=()=>{seed++;schedule();status('イラストを描き直したよ！');};
