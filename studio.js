@@ -50,6 +50,28 @@
   }
 
   function loadInitial() {
+    // Transfer user-approved script from the quick mode; keep stored older projects.
+    try {
+      const quick = sessionStorage.getItem('ai4koma.quick.transfer.v1');
+      if (quick) {
+        const incoming = JSON.parse(quick);
+        if (incoming && Array.isArray(incoming.panels) && incoming.panels.length === 4) {
+          const p = fresh();
+          p.title = String(incoming.title || 'わたしの4コマ漫画').slice(0,45);
+          p.hero = String(incoming.hero || '').slice(0,120);
+          p.layout = incoming.layout === 'grid' ? 'grid' : 'vertical';
+          p.panels = incoming.panels.map(panel => ({
+            ...newPanel(),
+            scene: String(panel?.scene || '').slice(0,180),
+            speech: String(panel?.speech || '').slice(0,90)
+          }));
+          project = p;
+          sessionStorage.removeItem('ai4koma.quick.transfer.v1');
+          status('かんたん完成モードの内容を4コマ制作スタジオに引き継ぎました！');
+          return;
+        }
+      }
+    } catch (e) { /* invalid quick draft */ }
     try {
       const wizard = sessionStorage.getItem(WIZARD);
       if (wizard) {
