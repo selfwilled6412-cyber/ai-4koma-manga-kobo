@@ -168,11 +168,48 @@ function character(cx,cy,scale,type,sceneIndex){
  if(eye==='happy'){star(91,-195,19,'#ffdb51');star(-93,-175,15,'#ffd656')}
  ctx.restore();
 }
+
+const SCENE_PROPS=[
+ [/宇宙船|ロケット|発射|飛行船/,'🚀'],[/給食|お弁当|弁当|ごはん/,'🍱'],[/パン|クロワッサン/,'🍞'],
+ [/校長|先生|教師/,'🧑‍🏫'],[/友達|友だち|友人/,'🧑‍🤝‍🧑'],[/学校|教室|授業|勉強/,'🏫'],
+ [/魔法|魔女|魔法使い/,'🪄'],[/ドラゴン|竜/,'🐉'],[/猫|ねこ|ネコ/,'🐈'],[/犬|いぬ|イヌ/,'🐕'],
+ [/ケーキ|誕生日/,'🎂'],[/プリン/,'🍮'],[/ラーメン/,'🍜'],[/お金|財布|おこづかい/,'💰'],
+ [/宝石|ダイヤ|お宝/,'💎'],[/星|銀河|宇宙/,'🌟'],[/雲|雨|台風|嵐/,'🌦️'],[/海|船|波/,'⛵'],
+ [/花|お花|庭/,'🌸'],[/車|ドライブ|運転/,'🚗'],[/バス|電車|駅/,'🚆'],
+ [/音楽|歌|ギター|ピアノ/,'🎸'],[/ゲーム|対戦/,'🎮'],[/絵|美術|お絵かき/,'🎨'],
+ [/火|炎|燃え|爆発/,'💥'],[/走る|走った|かけっこ|ダッシュ/,'💨'],
+ [/笑う|笑って|爆笑/,'😂'],[/びっくり|驚き|突然/,'❗']
+];
+function propsForScene(scene,hero){
+ const input=String(scene||'').slice(0,180);
+ const props=[];
+ for(const [rx,symbol] of SCENE_PROPS){
+  if(rx.test(input)&&!props.includes(symbol)){props.push(symbol);if(props.length>=3)break;}
+ }
+ if(!props.length){props.push('✨');}
+ return props;
+}
+function drawSceneProps(scene,w,h,hero){
+ const props=propsForScene(scene,hero);
+ const positions=[[.25,.36],[.43,.60],[.13,.61]];
+ for(let i=0;i<props.length;i++){
+  const [px,py]=positions[i];
+  ctx.save();ctx.globalAlpha=.94;ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.shadowColor='#ffffffb8';ctx.shadowBlur=15;
+  ctx.font='900 '+Math.round(Math.max(32,Math.min(80,w*.11)))+'px system-ui,"Apple Color Emoji","Segoe UI Emoji",sans-serif';
+  ctx.fillText(props[i],w*px,h*py);
+  ctx.restore();
+ }
+ if(/突然|大事件|大変|びっくり|!?|？！|爆発/.test(scene)){
+  star(w*.52,h*.25,Math.max(12,Math.min(35,w*.035)),'#ffca55');
+ }
+}
 function panelScene(i,x,y,w,h){
  const p=project.panels[i];ctx.save();ctx.translate(x,y);
  box(0,0,w,h,'#fff','#101e35',6,5);
  ctx.save();ctx.beginPath();ctx.rect(4,4,w-8,h-8);ctx.clip();
  drawBackground(project.theme,w,h,i);
+ drawSceneProps(p.scene,w,h,project.hero);
  // Comic energy accents
  for(let k=0;k<5;k++){line(w*.72+k*8,20,w*.78+k*11,6,'#fff7ff',3)}
  const compact=w<600;
