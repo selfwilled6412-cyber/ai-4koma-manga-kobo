@@ -9,7 +9,7 @@
 <div class="top"><a class="back" href="index.html">◀ 5つの質問に戻る</a><a class="back" href="https://selfwilled6412-cyber.github.io/base-iwakuni/saiko-apps/">⌂ サイ校アプリ一覧</a></div>
 <header class="header"><div class="eyebrow">AI 4-COMA MANGA KOBO · QUICK FINISH</div><h1>🎨 <span>かんたん4コマ</span>完成モード</h1>
 <p>5つの質問から4コマを組み立てて、イラストとセリフを編集しよう！無料・ログイン不要。できた作品は画像保存や印刷ができるよ。</p>
-<div><span class="pill">イラスト自動配置</span><span class="pill">セリフ編集</span><span class="pill">PNG・A4印刷</span><span class="pill">端末内で作成</span></div></header>
+<div><span class="pill">原稿に合わせた小物・演出</span><span class="pill">セリフ編集</span><span class="pill">PNG・A4印刷</span><span class="pill">端末内で作成</span></div></header>
 <main class="columns"><section class="card editCard"><h2>🛠️ 作品をつくる</h2>
 <div class="formGrid">
 <label class="field full">タイトル<input type="text" id="title" maxlength="50" value="わたしの4コマ漫画"></label>
@@ -21,7 +21,7 @@
 </div>
 <div class="row"><button class="btn alt" id="demo" type="button">🎲 おもしろサンプル</button><button class="btn" id="rerender" type="button">✨ 絵を描き直す</button></div>
 <div class="panels" id="panelFields"></div>
-<div class="notice"><strong>このモードの「自動イラスト」はAI生成ではなく、オリジナルのテンプレートイラストです。</strong> 自分の絵や写真を1コマずつ使いたい場合は、従来の<a href="studio.html" style="color:#9ffcff">詳細制作スタジオ</a>で編集できるよ。今の文章を詳細スタジオへ引き継ぐボタンも用意してある。</div>
+<div class="notice"><strong>このモードの「自動イラスト」はAI生成ではなく、オリジナルのテンプレートイラストです。場面説明に「パン」「ロケット」などが入ると小物や演出が変わるよ。</strong> 自分の絵や写真を1コマずつ使いたい場合は、従来の<a href="studio.html" style="color:#9ffcff">詳細制作スタジオ</a>で編集できるよ。今の文章を詳細スタジオへ引き継ぐボタンも用意してある。</div>
 </section>
 <section class="card preview"><div class="previewTop"><h2>📖 完成プレビュー</h2><span class="pill">すぐに更新</span></div><div class="canvasWrap"><canvas id="comic" width="1000" height="1550" role="img" aria-label="制作中の4コマ漫画プレビュー"></canvas></div>
 <div class="row"><button id="savePng" class="btn primary" type="button">⬇ PNGで保存</button><button id="print" class="btn" type="button">🖨 A4で印刷</button><button id="saveJson" class="btn" type="button">💾 編集データ保存</button><label for="loadJson" class="btn">📂 保存データを開く<input type="file" id="loadJson" accept=".json,application/json" hidden></label><button id="toStudio" class="btn alt" type="button">🖼️ 詳細スタジオへ引き継ぐ</button></div>
